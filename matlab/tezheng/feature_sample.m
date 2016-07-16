@@ -1,0 +1,664 @@
+%样本产生
+close all;
+clear all;
+clc;
+
+fc=7e7;%载波频率
+fs=2e8;%采样频率
+fd=2e6;%码速率
+freqsep=1e6;%频偏
+df=25e5;%频率分辨率
+dalpha=0.25e5;%循环频率分辨率
+Ac=1;%振幅
+N_code=1000;%码元个数
+N_sample=200;%样本数
+N_fe=27;%特征数
+
+mode1= zeros(N_sample,N_fe+1);
+mode2= zeros(N_sample,N_fe+1);
+mode3= zeros(N_sample,N_fe+1);
+mode4= zeros(N_sample,N_fe+1);
+mode5= zeros(N_sample,N_fe+1);
+mode6= zeros(N_sample,N_fe+1);
+mode7= zeros(N_sample,N_fe+1);
+mode8= zeros(N_sample,N_fe+1);
+mode9= zeros(N_sample,N_fe+1);
+mode10= zeros(N_sample,N_fe+1);
+
+snr=0;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train0=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test0=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train0 sample_train0
+save sample_test0 sample_test0
+
+snr=2;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train2=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test2=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train2 sample_train2
+save sample_test2 sample_test2
+
+snr=4;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train4=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test4=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train4 sample_train4
+save sample_test4 sample_test4
+
+snr=6;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train6=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test6=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train6 sample_train6
+save sample_test6 sample_test6
+
+snr=8;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train8=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test8=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train8 sample_train8
+save sample_test8 sample_test8
+
+snr=10;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train10=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test10=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train10 sample_train10
+save sample_test10 sample_test10
+
+snr=12;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train12=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test12=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train12 sample_train12
+save sample_test12 sample_test12
+
+snr=14;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train14=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test14=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train14 sample_train14
+save sample_test14 sample_test14
+
+snr=16;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train16=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test16=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train16 sample_train16
+save sample_test16 sample_test16
+
+snr=18;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train18=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test18=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train18 sample_train18
+save sample_test18 sample_test18
+
+snr=20;
+for num_sample=1:N_sample    
+    y=ask2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode1(num_sample,:)=[1,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode2(num_sample,:)=[2,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=ask8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode3(num_sample,:)=[3,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk2(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode4(num_sample,:)=[4,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk4(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode5(num_sample,:)=[5,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=fsk8(N_code,fc,fs,fd,freqsep,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode6(num_sample,:)=[6,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk2(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode7(num_sample,:)=[7,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk4(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode8(num_sample,:)=[8,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=psk8(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode9(num_sample,:)=[9,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+    y=qam16(N_code,fc,fs,fd,Ac);
+    yr=awgn(y,snr,'measured','db');
+    [r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7]=featuressgj_extraction(yr,fc,fs,fd);
+    [E1,E2,E3,E4,E5]=featurexb_extraction(yr);[D_B,D_I]=featurefx_extraction(yr);[R1,R2,R3,Beta,P]=featurecsd_extraction(yr,fs,fc,df,dalpha);
+    mode10(num_sample,:)=[10,r_max,E,m_A,sigma_aa,sigma_ap,sigma_dp,sigma_af,P_max,d_1,d_2,d_3,d_4,d_5,d_6,d_7,E1,E2,E3,E4,E5,D_B,D_I,R1,R2,R3,Beta,P];    
+end
+sample_train20=[mode1(1:N_sample/2,:);mode2(1:N_sample/2,:);mode3(1:N_sample/2,:);mode4(1:N_sample/2,:);mode5(1:N_sample/2,:);mode6(1:N_sample/2,:);mode7(1:N_sample/2,:);mode8(1:N_sample/2,:);mode9(1:N_sample/2,:);mode10(1:N_sample/2,:)];
+sample_test20=[mode1(N_sample/2+1:N_sample,:);mode2(N_sample/2+1:N_sample,:);mode3(N_sample/2+1:N_sample,:);mode4(N_sample/2+1:N_sample,:);mode5(N_sample/2+1:N_sample,:);mode6(N_sample/2+1:N_sample,:);mode7(N_sample/2+1:N_sample,:);mode8(N_sample/2+1:N_sample,:);mode9(N_sample/2+1:N_sample,:);mode10(N_sample/2+1:N_sample,:)];
+save sample_train20 sample_train20
+save sample_test20 sample_test20
